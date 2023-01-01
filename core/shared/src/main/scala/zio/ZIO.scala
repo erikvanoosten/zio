@@ -31,9 +31,10 @@ import izumi.reflect.macrortti.LightTypeTag
 
 /**
  * A `ZIO[R, E, A]` value is an immutable value (called an "effect") that
- * describes an async, concurrent workflow. In order to be executed, the
- * workflow requires a value of type `ZEnvironment[R]`, and when executed, the
- * workflow will either produce a failure of type `E`, or a success of type `A`.
+ * describes an async, concurrent workflow (a ''computation''). In order to be
+ * executed, the workflow requires a value of type `ZEnvironment[R]`, and when
+ * executed, the workflow will either produce a failure of type `E`, or a
+ * success of type `A`.
  *
  * ZIO effects may informally be thought of as functions of the following form:
  *
@@ -44,12 +45,18 @@ import izumi.reflect.macrortti.LightTypeTag
  * ZIO effects model resourceful interaction with the outside world, including
  * synchronous, asynchronous, concurrent, and parallel interaction.
  *
- * The async and concurrent operations of ZIO effects are powered by fibers,
- * which are lightweight, green threads that enable high scalability.
+ * For information on how to construct and combine ZIOs see
+ * [[https://zio.dev/reference/core/zio/]].
  *
- * To run an effect, you need a `Runtime`, which is capable of executing
- * effects. Runtimes bundle a thread pool together with the environment that
- * effects need.
+ * To run a ZIO, you need a [[Runtime]] (see also
+ * [[https://zio.dev/reference/core/runtime]]). However, when your whole app is
+ * modelled as a ZIO effect, you can use [[ZIOApp]] (see also
+ * [[https://zio.dev/reference/core/zioapp]]).
+ *
+ * When execution results in a non-expected exception, this is considered a
+ * ''defect''. Defects are intentionally not modelled as a type parameter. For
+ * more information see
+ * [[https://zio.dev/reference/error-management/expected-and-unexpected-errors]].
  */
 sealed trait ZIO[-R, +E, +A]
     extends Product
